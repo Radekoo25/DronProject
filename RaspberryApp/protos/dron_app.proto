@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package dron_app;
+
+// The greeting service definition.
+service Dron {
+	// Unary
+	rpc SettingPID (PIDConfigurationMessage) returns (RaspberryResponse);
+
+	// Server Streaming
+
+
+	// Client Streaming
+
+
+	// Both Streaming
+
+}
+
+// Configuration message for setting the PID regulators.
+message PIDConfigurationMessage {
+  int32 yaw_kp = 1;
+  int32 yaw_ki = 2;
+  int32 yaw_kd = 3;
+	int32 pitch_kp = 4;
+	int32 pitch_ki = 5;
+	int32 pitch_kd = 6;
+	int32 roll_kp = 7;
+	int32 roll_ki = 8;
+	int32 roll_kd = 9;
+}
+
+// Server response to PID setting.
+message RaspberryResponse {
+  bool successfullyCompleted = 1;
+}
