@@ -20,11 +20,6 @@ class DronStub(object):
                 request_serializer=dron__app__pb2.PIDConfigurationMessage.SerializeToString,
                 response_deserializer=dron__app__pb2.RaspberryResponse.FromString,
                 )
-        self.TestFunction = channel.unary_unary(
-                '/dron_app.Dron/TestFunction',
-                request_serializer=dron__app__pb2.TestRequest.SerializeToString,
-                response_deserializer=dron__app__pb2.TestResponse.FromString,
-                )
 
 
 class DronServicer(object):
@@ -38,12 +33,6 @@ class DronServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def TestFunction(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
 
 def add_DronServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -51,11 +40,6 @@ def add_DronServicer_to_server(servicer, server):
                     servicer.SettingPID,
                     request_deserializer=dron__app__pb2.PIDConfigurationMessage.FromString,
                     response_serializer=dron__app__pb2.RaspberryResponse.SerializeToString,
-            ),
-            'TestFunction': grpc.unary_unary_rpc_method_handler(
-                    servicer.TestFunction,
-                    request_deserializer=dron__app__pb2.TestRequest.FromString,
-                    response_serializer=dron__app__pb2.TestResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -82,22 +66,5 @@ class Dron(object):
         return grpc.experimental.unary_unary(request, target, '/dron_app.Dron/SettingPID',
             dron__app__pb2.PIDConfigurationMessage.SerializeToString,
             dron__app__pb2.RaspberryResponse.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def TestFunction(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/dron_app.Dron/TestFunction',
-            dron__app__pb2.TestRequest.SerializeToString,
-            dron__app__pb2.TestResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

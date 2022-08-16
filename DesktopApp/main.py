@@ -1,6 +1,5 @@
 import tkinter as tk
-import threading
-import greet_client
+import dron_client
 
 HEIGHT = 600
 WIDTH = 800
@@ -8,10 +7,6 @@ WIDTH = 800
 
 def exitWindow(window):
     window.destroy()
-
-def background(func, args):
-    th = threading.Thread(target=func, args=args)
-    th.start()
 
 def OpenConfigurationWindow():
         configuration_window = tk.Tk()
@@ -102,7 +97,7 @@ def OpenConfigurationWindow():
         canvas_configuration_window.create_window(3*WIDTH/4-50, 400, window=entry_roll_kd)
 
         def SendConfiguration():
-            greet_client.setPID(greet_client.create_pid_configuration(
+            dron_client.setPID(dron_client.create_pid_configuration(
                 int(entry_yaw_kp.get()), int(entry_yaw_ki.get()), int(entry_yaw_kd.get()),
                 int(entry_pitch_kp.get()), int(entry_pitch_ki.get()), int(entry_pitch_kd.get()),
                 int(entry_roll_kp.get()), int(entry_roll_ki.get()), int(entry_roll_kd.get())))
