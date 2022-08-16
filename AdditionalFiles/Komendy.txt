@@ -1,0 +1,5 @@
+- Generowanie plików do servera grpc :
+
+python -m grpc_tools.protoc -I protos --python_out=. --grpc_python_out=. protos\dron_app.proto
+
+python nanopb_generator.py D:\DRON\dron\ProjektNasz\Archiwum\gRPCClient\protos\dron_app.proto
