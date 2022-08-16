@@ -6,7 +6,6 @@ package dron_app;
 service Dron {
 	// Unary
 	rpc SettingPID (PIDConfigurationMessage) returns (RaspberryResponse);
-	rpc TestFunction (TestRequest) returns (TestResponse);
 
 	// Server Streaming
 
@@ -34,12 +33,4 @@ message PIDConfigurationMessage {
 // Server response to PID setting.
 message RaspberryResponse {
   bool successfullyCompleted = 1;
-}
-
-message TestRequest {
-	string text = 1;
-}
-
-message TestResponse {
-	string text2 = 1;
 }
