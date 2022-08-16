@@ -1,0 +1,25 @@
+#include <Arduino.h>
+#include <pb_arduino.h>
+#include <pb.h>
+
+pb_istream_s pb_in = as_pb_istream(Serial);
+pb_ostream_s pb_out = as_pb_ostream(Serial);
+
+void setup() {
+  // put your setup code here, to run once:
+Serial.begin(9600);
+while(!Serial) {}
+}
+
+
+void loop() {
+if(Serial.available()>0) {
+  delay(1000);
+
+  String message = Serial.readStringUntil('\n');
+  // W tym miejscu ma być wczytywanie jako pliku proto, nie do stringa. 
+  // Oczekuję formatu ConfigurationMessage.
+
+  Serial.println(message);
+  }
+}

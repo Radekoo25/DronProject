@@ -1,0 +1,124 @@
+#include <Arduino.h>
+#include <LinkedList.h>
+#include <StateMachine.h>
+
+int test = 0;
+
+//Maszyna stanów
+StateMachine machine = StateMachine();
+
+
+//Stany
+void WaitForConnection(){
+  if(machine.executeOnce){
+    Serial.println("WaitForConnection");
+  }
+  Serial.begin(9600);
+  while(!Serial) {}
+  test = 1;
+}
+
+void Connected(){
+  if(machine.executeOnce){
+    Serial.println("Connected");
+  }
+  if(Serial.available()>0){
+    String message = Serial.readStringUntil('\n');
+    message = message;
+    Serial.println(message);
+    //AKTUALIZUJ PID
+  }
+  //if (Get_Order == ARM) { test = 2}
+  //if (DISCONECTED) test = 0
+}
+
+void Armed(){
+  if(machine.executeOnce){
+    Serial.println("Armed");
+  }
+}
+
+void Flying(){
+  if(machine.executeOnce){
+    Serial.println("Flying");
+  }
+}
+
+void Error(){
+  if(machine.executeOnce){
+  Serial.println("Error");
+  }
+}
+
+//Przejścia między stanami
+
+bool wait_conn(){
+  if(test == 1){
+    return true;
+  }
+  return false;
+}
+
+bool conn_wait(){
+  if(test == 0){
+    return true;
+  }
+  return false;
+}
+
+bool conn_arm(){
+  if(test == 2){
+    return true;
+  }
+  return false;
+}
+
+bool arm_conn(){
+  if(test == 1){
+    return true;
+  }
+  return false;
+}
+
+bool arm_fly(){
+  if(test == 3){
+    return true;
+  }
+  return false;
+}
+
+bool fly_arm(){
+  if(test == 2){
+    return true;
+  }
+  return false;
+}
+
+
+
+State* S0 = machine.addState(&WaitForConnection); 
+State* S1 = machine.addState(&Connected);
+State* S2 = machine.addState(&Armed);
+State* S3 = machine.addState(&Flying); 
+State* S4 = machine.addState(&Error);
+
+
+
+void setup() {
+  // Adding Transition
+  // S0
+  S0->addTransition(&wait_conn,S1);
+  // S1    
+  S1->addTransition(&conn_wait,S0);  
+  S1->addTransition(&conn_arm,S2);  
+  // S2
+  S2->addTransition(&arm_conn,S1);
+  S2->addTransition(&arm_fly,S3);
+  // S3  
+  S3->addTransition(&fly_arm,S2);  
+  // S4  
+}
+
+void loop() {
+  machine.run();
+}
