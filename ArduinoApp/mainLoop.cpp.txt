@@ -1,6 +1,13 @@
 #include <Arduino.h>
 #include <LinkedList.h>
 #include <StateMachine.h>
+#include <pb_arduino.h>
+#include <pb.h>
+#include <pid_configuration_message.pb.h>
+#include "pb_common.h"
+#include "pb.h"
+#include "pb_encode.h"
+
 
 int test = 0;
 
@@ -10,22 +17,25 @@ StateMachine machine = StateMachine();
 
 //Stany
 void WaitForConnection(){
-  if(machine.executeOnce){
-    Serial.println("WaitForConnection");
-  }
+  if(machine.executeOnce){}
   Serial.begin(9600);
   while(!Serial) {}
   test = 1;
 }
 
 void Connected(){
-  if(machine.executeOnce){
-    Serial.println("Connected");
-  }
+  if(machine.executeOnce){}
   if(Serial.available()>0){
-    String message = Serial.readStringUntil('\n');
-    message = message;
-    Serial.println(message);
+    uint8_t buffer[1024];
+    PIDConfigurationMessage message = PIDConfigurationMessage_init_zero;
+    pb_istream_t stream = pb_istream_from_buffer(buffer, sizeof(PIDConfigurationMessage));
+    bool status = pb_decode(&stream, PIDConfigurationMessage_fields, &message);
+    if(!status) {
+      Serial.println(1);
+    }
+    else {
+      Serial.println(1);
+    }
     //AKTUALIZUJ PID
   }
   //if (Get_Order == ARM) { test = 2}
