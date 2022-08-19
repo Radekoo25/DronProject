@@ -4,6 +4,7 @@ import grpc
 import sys
 
 HOST_ADDRESS = 'localhost:10001'
+#HOST_ADDRESS = '192.168.1.68:10001'
 
 
 def create_pid_configuration(
@@ -34,5 +35,7 @@ def setPID(pidConfiguration):
         raspberryResponse = stub.SettingPID(pidConfiguration)
         if(raspberryResponse.successfullyCompleted == 1):
             print("set")
+            return True
         else:
             print("error")
+            return False
