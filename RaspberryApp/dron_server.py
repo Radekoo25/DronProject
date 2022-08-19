@@ -43,6 +43,7 @@ def serve():
             time.sleep(10)
     except KeyboardInterrupt:
         server.stop(0)
+        print("server closed")
         ard.close_connection()
 
 
