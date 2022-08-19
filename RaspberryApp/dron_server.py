@@ -6,6 +6,7 @@ import dron_app_pb2_grpc
 import arduino
 
 HOST_ADDRESS = 'localhost:10001'
+#HOST_ADDRESS = '192.168.1.68:10001'
 ard = arduino.SerialConnection()
 
 
@@ -14,13 +15,13 @@ class DronServicer(dron_app_pb2_grpc.DronServicer):
     def SettingPID(self, request, context):
 
         # Receiving message from DesktopApp
-        pidConfigurationMessage = dron_app_pb2.PIDConfigurationMessage()
-        pidConfigurationMessage = request
-        print(pidConfigurationMessage)
+        # pidConfigurationMessage = dron_app_pb2.PIDConfigurationMessage()
+        # pidConfigurationMessage = request
+        print(request)
 
         # Sending message to Arduino
-        # arduino_response = ard.sendPID(pidConfigurationMessage)
-        arduino_response = ard.sendPID("pidConfigurationMessage\n")
+        arduino_response = ard.sendPID(request)
+        # arduino_response = ard.sendPID("pidConfigurationMessage\n")
 
         # Sending Arduino response back to desktop client
         raspberry_response = dron_app_pb2.RaspberryResponse()

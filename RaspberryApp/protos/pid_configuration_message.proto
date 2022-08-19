@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+message PIDConfigurationMessage {
+  int32 yaw_kp = 1;
+  int32 yaw_ki = 2;
+  int32 yaw_kd = 3;
+	int32 pitch_kp = 4;
+	int32 pitch_ki = 5;
+	int32 pitch_kd = 6;
+	int32 roll_kp = 7;
+	int32 roll_ki = 8;
+	int32 roll_kd = 9;
+}
